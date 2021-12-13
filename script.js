@@ -15,11 +15,11 @@ localStorage.setItem(CACHE_KEY, userJSON);
 const arrayBox = document.getElementById('array');
 
 // function buat render data ke html
-const arrayBoxRender = (data) => {
+const arrayBoxRender = (data, clickedIndex) => {
   let arrayBoxContent = `
     ${data.map((item, index) => `
       <div
-        class="array-box ${index == 0 ? 'chosen-one' : 'runner-up'}"
+        class="array-box ${index == 0 ? 'chosen-one' : ''} ${index <= clickedIndex && index != 0 ? 'runner-up' : ''}"
         ${index != 0 ? `onClick=setToFirst(${index})` : ''}
       >
         <span class="label">${item.id}</span>
@@ -62,7 +62,7 @@ const setToFirst = (index) => {
   userParse.unshift(chosenData);
 
   // render data ke html
-  arrayBoxRender(userParse);
+  arrayBoxRender(userParse, chosenIndex);
 
   // Simpan ke localstorage
   userJSON = JSON.stringify(userParse);
@@ -70,5 +70,5 @@ const setToFirst = (index) => {
 }
 
 window.addEventListener('load', () => {
-  arrayBoxRender(user);
+  arrayBoxRender(user, 0);
 });
